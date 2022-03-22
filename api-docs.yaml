@@ -1,0 +1,187 @@
+openapi: 3.0.0
+info:
+  title: Natours API
+  description: API Documentation for Natours app built with express, mongodb, nodejs
+  contact: {}
+  version: '1.0'
+servers:
+  - url: http://127.0.0.1:3000
+    variables: {}
+paths:
+  # Signup
+  /api/v1/users/signup:
+    post:
+      tags:
+        - Auth
+      summary: Register User
+      description: Register user
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterUserRequest'
+            example:
+              name: Bob Marley
+              email: bobmarley@gmail.com
+              password: testuser123
+              passwordConfirm: testuser123
+        required: true
+      responses:
+        '201':
+          description: ''
+          headers: {}
+      deprecated: false
+      security: []
+  # Login
+  /api/v1/users/login:
+    post:
+      tags:
+        - Auth
+      summary: Login User
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginUserRequest'
+            example:
+              email: bobmarley@gmail.com
+              password: testuser123
+        required: true
+      responses:
+        '200':
+          description: Test Desc
+
+  /api/v1/tours:
+    # Get all tours
+    get:
+      tags:
+        - Tours
+      summary: Get All tours
+      responses:
+        '200':
+          description: 'Get all tours available'
+          headers: {}
+      deprecated: false
+    # Create Tours
+    post:
+      tags:
+        - Tours
+      summary: Create Tour
+      requestBody:
+        description: 'Something'
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTourRequest'
+            example:
+              name: Raja Ampat Tour
+              difficulty: medium
+              summary: Raja Ampat is a place with beautiful views and many unique creatures in there
+              imageCover: img-RA-1.jpg
+              price: 1800000
+              duration: 7
+              maxGroupSize: 12
+      responses:
+        '201':
+          description: ''
+          headers: {}
+      deprecated: false
+
+  # COMPONENT
+components:
+  schemas:
+    RegisterUserRequest:
+      title: RegisterUserRequest
+      required:
+        - name
+        - email
+        - password
+        - passwordConfirm
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        passwordConfirm:
+          type: string
+      example:
+        name: bobmarley1
+        email: bobmarley1@gmail.com
+        password: testuser123
+    LoginUserRequest:
+      title: LoginUserRequest
+      required:
+        - email
+        - password
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      example:
+        email: susan@gmail.com
+        password: secret
+    CreateTourRequest:
+      title: CreateTourRequest
+      required:
+        - name
+        - duration
+        - maxGroupSize
+        - difficulty
+        - price
+        - summary
+        - imageCover
+
+      type: object
+      properties:
+        name:
+          type: string
+        difficulty:
+          type: string
+        summary:
+          type: string
+        imageCover:
+          type: string
+        price:
+          type: number
+        duration:
+          type: number
+        maxGroupSize:
+          type: number
+
+      example:
+        company: google
+        position: front-end developer
+    UpdateJobRequest:
+      title: UpdateJobRequest
+      required:
+        - company
+        - position
+      type: object
+      properties:
+        company:
+          type: string
+        position:
+          type: string
+      example:
+        company: random
+        position: intern
+  securitySchemes:
+    httpBearer:
+      type: http
+      scheme: bearer
+security:
+  - httpBearer: []
+tags:
+  - name: Auth
+    description: ''
+  - name: Tours
+    description: ''
